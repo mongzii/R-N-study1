@@ -1,117 +1,60 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+// import React, {useState} from 'react';
+// // import {SafeAreaView, Text, View} from 'react-native';
+// import {SafeAreaView, Button} from 'react-native';
+// import Box from './components/Box';
+// // import Greeting from './components/Greeting';
+
+// const App = () => {
+//   const [visible, setVisible] = useState(true);
+//   const onPress = () => {
+//     setVisible(!visible);
+//   };
+//   return (
+//     <SafeAreaView>
+//       {/* <View>
+//         <Text>hello react native</Text>
+//       </View> */}
+//       {/* <Greeting /> */}
+//       <Button title="토글" onPress={onPress} />
+//       {/* {visible ? <Box rounded={true} size="large" color="blue" /> : null} */}
+//       {visible && <Box rounded={true} size="large" color="blue" />}
+//     </SafeAreaView>
+//   );
+// };
+
+// export default App;
 
 import React from 'react';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {StyleSheet, KeyboardAvoidingView, Platform} from 'react-native';
+import DateHead from './components/DateHead';
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import AddTodo from './components/AddTodo';
+import Empty from './components/Empty';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-/* $FlowFixMe[missing-local-annot] The type annotation(s) required by Flow's
- * LTI update could not be added via codemod */
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+const App = () => {
+  const today = new Date();
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView edges={['bottom']} style={styles.block}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+          style={styles.avoid}>
+          <DateHead date={today} />
+          <Empty />
+          <AddTodo />
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  block: {
+    flex: 1,
+    backgroundColor: 'white',
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
+  avoid: {flex: 1},
 });
 
 export default App;

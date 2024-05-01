@@ -1,8 +1,36 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function TodoItem({id, text, done, onToggle, onRemove}) {
+  const removeCheck = () => {
+    Alert.alert(
+      '삭제',
+      '정말로 삭제하시겠어요?',
+      [
+        {text: '취소', onPress: () => {}, style: 'cancel'},
+        {
+          text: '삭제',
+          onPress: () => {
+            onRemove(id);
+          },
+          style: 'destructive',
+        },
+      ],
+      {
+        cancelable: true,
+        onDismiss: () => {}, //박스바깥영역을 터치하거나 back버튼했을때 alert닫히게설정
+      },
+    );
+  };
+
   return (
     <View style={styles.item}>
       <TouchableOpacity onPress={() => onToggle(id)}>
@@ -16,7 +44,7 @@ function TodoItem({id, text, done, onToggle, onRemove}) {
       </TouchableOpacity>
       <Text style={[styles.text, done && styles.lineThrough]}>{text}</Text>
       {done ? (
-        <TouchableOpacity onPress={() => onRemove(id)}>
+        <TouchableOpacity onPress={removeCheck}>
           <Icon name="delete" size={32} color="red" />
         </TouchableOpacity>
       ) : (

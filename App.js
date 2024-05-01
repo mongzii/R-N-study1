@@ -13,6 +13,17 @@ const App = () => {
     {id: 2, text: '잠자기', done: false},
     {id: 3, text: '운동하기', done: false},
   ]);
+  const onInsert = text => {
+    //먼저 새로 등록할 항목의 id
+    const nextId =
+      todos.length > 0 ? Math.max(...todos.map(todo => todo.id)) + 1 : 1;
+    const todo = {
+      id: nextId,
+      text,
+      done: false,
+    };
+    setTodos(todos.concat(todo));
+  };
 
   return (
     <SafeAreaProvider>
@@ -25,7 +36,7 @@ const App = () => {
           style={styles.avoid}>
           <DateHead date={today} />
           {todos.length === 0 ? <Empty /> : <TodoList todos={todos} />}
-          <AddTodo />
+          <AddTodo onInsert={onInsert} />
         </KeyboardAvoidingView>
       </SafeAreaView>
     </SafeAreaProvider>

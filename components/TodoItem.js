@@ -1,11 +1,17 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 
 function TodoItem({id, text, done}) {
   return (
     <View style={styles.item}>
-      <View style={styles.circle} />
-      <Text style={styles.text}>{text}</Text>
+      <View style={[styles.circle, done && styles.filled]}>
+        {done && (
+          <Image
+            source={require('../assets/icons/check_white/check_white.png')}
+          />
+        )}
+      </View>
+      <Text style={[styles.text, done && styles.lineThrough]}>{text}</Text>
     </View>
   );
 }
@@ -15,6 +21,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 16,
     alignItems: 'center',
+    borderBottomColor: '#e0e0e0',
   },
   circle: {
     width: 24,
@@ -23,6 +30,15 @@ const styles = StyleSheet.create({
     borderColor: '#26a69a',
     borderWidth: 1,
     marginRight: 16,
+  },
+  filled: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#26a69a',
+  },
+  lineThrough: {
+    color: '#9e9e9e',
+    textDecorationLine: 'line-through',
   },
   text: {
     flex: 1,

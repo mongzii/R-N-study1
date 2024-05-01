@@ -1,38 +1,18 @@
-// import React, {useState} from 'react';
-// // import {SafeAreaView, Text, View} from 'react-native';
-// import {SafeAreaView, Button} from 'react-native';
-// import Box from './components/Box';
-// // import Greeting from './components/Greeting';
-
-// const App = () => {
-//   const [visible, setVisible] = useState(true);
-//   const onPress = () => {
-//     setVisible(!visible);
-//   };
-//   return (
-//     <SafeAreaView>
-//       {/* <View>
-//         <Text>hello react native</Text>
-//       </View> */}
-//       {/* <Greeting /> */}
-//       <Button title="토글" onPress={onPress} />
-//       {/* {visible ? <Box rounded={true} size="large" color="blue" /> : null} */}
-//       {visible && <Box rounded={true} size="large" color="blue" />}
-//     </SafeAreaView>
-//   );
-// };
-
-// export default App;
-
-import React from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, KeyboardAvoidingView, Platform} from 'react-native';
 import DateHead from './components/DateHead';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import AddTodo from './components/AddTodo';
 import Empty from './components/Empty';
+import TodoList from './components/TodoList';
 
 const App = () => {
   const today = new Date();
+  const [todos, setTodos] = useState([
+    {id: 1, text: '밥먹기', done: true},
+    {id: 2, text: '잠자기', done: false},
+    {id: 3, text: '운동하기', done: false},
+  ]);
 
   return (
     <SafeAreaProvider>
@@ -44,7 +24,7 @@ const App = () => {
           behavior={Platform.select({ios: 'padding', android: undefined})}
           style={styles.avoid}>
           <DateHead date={today} />
-          <Empty />
+          {todos.length === 0 ? <Empty /> : <TodoList todos={todos} />}
           <AddTodo />
         </KeyboardAvoidingView>
       </SafeAreaView>

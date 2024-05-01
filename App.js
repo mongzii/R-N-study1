@@ -30,6 +30,10 @@ const App = () => {
     );
     setTodos(nextTodos);
   };
+  const onRemove = id => {
+    const nextTodos = todos.filter(todo => todo.id !== id);
+    setTodos(nextTodos);
+  };
 
   return (
     <SafeAreaProvider>
@@ -44,7 +48,7 @@ const App = () => {
           {todos.length === 0 ? (
             <Empty />
           ) : (
-            <TodoList todos={todos} onToggle={onToggle} />
+            <TodoList todos={todos} onToggle={onToggle} onRemove={onRemove} />
           )}
           <AddTodo onInsert={onInsert} />
         </KeyboardAvoidingView>

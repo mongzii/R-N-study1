@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, KeyboardAvoidingView, Platform} from 'react-native';
 import DateHead from './components/DateHead';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+//import AsyncStorage from '@react-native-async-storage/async-storage';
+import todosStorage from './storages/todosStorage';
 import AddTodo from './components/AddTodo';
 import Empty from './components/Empty';
 import TodoList from './components/TodoList';
@@ -13,6 +15,45 @@ const App = () => {
     {id: 2, text: '잠자기', done: false},
     {id: 3, text: '운동하기', done: false},
   ]);
+  // useEffect(() => {
+  //   console.log(todos);
+  // }, [todos]);
+
+  useEffect(() => {
+    todosStorage.get().then(setTodos).catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    todosStorage.set(todos).catch(console.error);
+  }, [todos]);
+
+  // -----todosStorage 만들기전버전 --------------------------------------
+  // //불러오기
+  // useEffect(() => {
+  //   async function load() {
+  //     try {
+  //       const rawTodos = await AsyncStorage.getItem('todos');
+  //       const savedTodos = JSON.parse(rawTodos);
+  //       setTodos(savedTodos);
+  //     } catch (e) {
+  //       console.log('Fail');
+  //     }
+  //   }
+  //   load();
+  // }, []);
+
+  // //저장
+  // useEffect(() => {
+  //   async function save() {
+  //     try {
+  //       await AsyncStorage.setItem('todos', JSON.stringify(todos));
+  //     } catch (e) {
+  //       console.log('Fail');
+  //     }
+  //   }
+  //   save();
+  // }, [todos]);
+
   const onInsert = text => {
     //먼저 새로 등록할 항목의 id
     const nextId =
